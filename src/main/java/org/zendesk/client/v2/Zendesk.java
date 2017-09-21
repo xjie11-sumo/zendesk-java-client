@@ -49,12 +49,7 @@ import org.zendesk.client.v2.model.Trigger;
 import org.zendesk.client.v2.model.TwitterMonitor;
 import org.zendesk.client.v2.model.User;
 import org.zendesk.client.v2.model.UserField;
-import org.zendesk.client.v2.model.hc.Article;
-import org.zendesk.client.v2.model.hc.ArticleAttachments;
-import org.zendesk.client.v2.model.hc.Category;
-import org.zendesk.client.v2.model.hc.Section;
-import org.zendesk.client.v2.model.hc.Subscription;
-import org.zendesk.client.v2.model.hc.Translation;
+import org.zendesk.client.v2.model.hc.*;
 import org.zendesk.client.v2.model.schedules.Holiday;
 import org.zendesk.client.v2.model.schedules.Schedule;
 import org.zendesk.client.v2.model.targets.BasecampTarget;
@@ -542,7 +537,7 @@ public class Zendesk implements Closeable {
         if (realm != null) {
             builder.setRealm(realm);
         } else {
-            builder.addHeader("Authorization", "Bearer " + oauthToken);
+            builder.addHeader("Authorization", "Bearer" + oauthToken);
         }
         builder.setHeader("Content-Type", "multipart/form-data");
         builder.addBodyPart(
@@ -1745,6 +1740,11 @@ public class Zendesk implements Closeable {
             handleList(Holiday.class, "holidays")));
     }
 
+    public Iterable<Post> getCommunityPosts() {
+        return complete(submit(req("GET", cnst("/community/posts.json")),
+            handleList(Post.class, "posts")));
+    }
+
     //////////////////////////////////////////////////////////////////////
     // Helper methods
     //////////////////////////////////////////////////////////////////////
@@ -1793,7 +1793,7 @@ public class Zendesk implements Closeable {
         if (realm != null) {
             builder.setRealm(realm);
         } else {
-            builder.addHeader("Authorization", "Bearer " + oauthToken);
+            builder.addHeader("Authorization", "Bearer" + oauthToken);
         }
         builder.setUrl(RESTRICTED_PATTERN.matcher(url).replaceAll("+")); // replace out %2B with + due to API restriction
         return builder.build();
@@ -1804,7 +1804,7 @@ public class Zendesk implements Closeable {
         if (realm != null) {
             builder.setRealm(realm);
         } else {
-            builder.addHeader("Authorization", "Bearer " + oauthToken);
+            builder.addHeader("Authorization", "Bearer" + oauthToken);
         }
         builder.setUrl(RESTRICTED_PATTERN.matcher(template.toString()).replaceAll("+")); //replace out %2B with + due to API restriction
         builder.addHeader("Content-type", contentType);
