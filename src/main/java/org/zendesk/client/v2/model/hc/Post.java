@@ -12,42 +12,55 @@ public class Post {
   /** The API URL of the subscription */
   private String url;
 
+  /** The community url of the post **/
   @JsonProperty("html_url")
   private String html_url;
 
+  /** The title of the post **/
   @JsonProperty("title")
   private String title;
 
+  /** The details of the post **/
   @JsonProperty("details")
   private String details;
 
+  /** The id of the author of the post. *Writable on create by Help Center managers **/
   @JsonProperty("author_id")
   private int author_id;
 
+  /** When true, pins the post to the top of its topic **/
   @JsonProperty("pinned")
   private boolean pinned;
 
+  /** Whether the post is featured **/
   @JsonProperty("featured")
   private boolean featured;
 
+  /** Whether further comments are allowed **/
   @JsonProperty("closed")
   private boolean closed;
 
+  /** The status of the post. Possible values: "planned", "not_planned" , "answered", or "completed" **/
   @JsonProperty("status")
   private String status;
 
+  /** The total sum of votes on the post **/
   @JsonProperty("vote_sum")
   private int vote_sum;
 
+  /** The number of votes cast on the post **/
   @JsonProperty("vote_count")
   private int vote_count;
 
+  /** The number of comments on the post **/
   @JsonProperty("comment_count")
   private int comment_count;
 
+  /** The number of followers of the post **/
   @JsonProperty("follower_count")
   private int follower_count;
 
+  /** The id of the topic that the post belongs to **/
   @JsonProperty("topic_id")
   private int topic_id;
 
