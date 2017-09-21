@@ -1757,6 +1757,11 @@ public class Zendesk implements Closeable {
         return getCommunityPosts(queryParams);
     }
 
+    public Iterable<PostComment> getCommunityPostCommentsByPostId(Long postId) {
+        return complete(submit(req("GET", tmpl("/community/posts/{post_id}/comments.json").set("post_id", postId)),
+            handlePostCommentList("comments")));
+    }
+
     //////////////////////////////////////////////////////////////////////
     // Helper methods
     //////////////////////////////////////////////////////////////////////
@@ -2053,6 +2058,27 @@ public class Zendesk implements Closeable {
                         if (clazz != null) {
                             values.add(mapper.convertValue(node, clazz));
                         }
+                    }
+                    return values;
+                } else if (isRateLimitResponse(response)) {
+                    throw new ZendeskResponseRateLimitException(response);
+                }
+                throw new ZendeskResponseException(response);
+            }
+        };
+    }
+
+    protected PagedAsyncCompletionHandler<List<PostComment>> handlePostCommentList(final String name) {
+        return new PagedAsyncCompletionHandler<List<PostComment>>() {
+            @Override
+            public List<PostComment> onCompleted(Response response) throws Exception {
+                logResponse(response);
+                if (isStatus2xx(response)) {
+                    JsonNode responseNode = mapper.readTree(response.getResponseBodyAsBytes());
+                    setPagedProperties(responseNode, null);
+                    List<PostComment> values = new ArrayList<>();
+                    for (JsonNode node : responseNode.get(name)) {
+                        values.add(mapper.convertValue(node, PostComment.class));
                     }
                     return values;
                 } else if (isRateLimitResponse(response)) {

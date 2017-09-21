@@ -29,7 +29,7 @@ public class PostComment {
 
   /** Whether the comment is marked as official **/
   @JsonProperty("official")
-  private int official;
+  private boolean official;
 
   /** The total sum of votes on the post **/
   @JsonProperty("vote_sum")
@@ -95,11 +95,11 @@ public class PostComment {
     this.post_id = post_id;
   }
 
-  public int getOfficial() {
+  public boolean getOfficial() {
     return official;
   }
 
-  public void setOfficial(int official) {
+  public void setOfficial(boolean official) {
     this.official = official;
   }
 

@@ -9,9 +9,7 @@ public class TestMain {
         .setOauthToken(token)
         .build();
 
-    zd.getCommunityPosts(new HashMap<>()).forEach(System.out::println);
-    System.out.println("Start of newest");
     zd.getCommunityPostsSortByNewest().forEach(System.out::println);
-
+    zd.getCommunityPostCommentsByPostId(115006620307L).forEach(System.out::println);
   }
 }
