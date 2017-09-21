@@ -78,6 +78,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author stephenc
@@ -1740,9 +1741,20 @@ public class Zendesk implements Closeable {
             handleList(Holiday.class, "holidays")));
     }
 
-    public Iterable<Post> getCommunityPosts() {
-        return complete(submit(req("GET", cnst("/community/posts.json")),
+    public Iterable<Post> getCommunityPosts(Map<String, Object> queryParams) {
+        String queryString = queryParams.isEmpty() ? "?" +
+            queryParams.entrySet().stream()
+            .map(entry -> entry.getKey() + "=" + entry.getValue().toString())
+            .collect(Collectors.joining("&")) : "";
+
+        return complete(submit(req("GET", cnst("/community/posts.json" + queryString)),
             handleList(Post.class, "posts")));
+    }
+
+    public Iterable<Post> getCommunityPostsSortByNewest() {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("sort_by", "created_at");
+        return getCommunityPosts(queryParams);
     }
 
     //////////////////////////////////////////////////////////////////////
