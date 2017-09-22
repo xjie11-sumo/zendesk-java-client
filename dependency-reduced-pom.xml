@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>cloudbees-oss-parent</artifactId>
+    <groupId>com.cloudbees</groupId>
+    <version>6</version>
+    <relativePath>../pom.xml/pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.cloudbees.thirdparty</groupId>
+  <artifactId>zendesk-java-client</artifactId>
+  <name>zendesk-java-client</name>
+  <version>0.5.5-SNAPSHOT</version>
+  <description>Java client for the Zendesk API</description>
+  <url>https://github.com/cloudbees/zendesk-java-client</url>
+  <prerequisites>
+    <maven>3.0.4</maven>
+  </prerequisites>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/cloudbees/zendesk-java-client/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>jenkins</system>
+    <url>https://opensource.ci.cloudbees.com/job/zendesk-java-client/</url>
+  </ciManagement>
+  <inceptionYear>2013</inceptionYear>
+  <mailingLists>
+    <mailingList>
+      <name>Zendesk Java Client User List</name>
+      <subscribe>zendesk-java-client-users+subscribe@googlegroups.com</subscribe>
+      <unsubscribe>zendesk-java-client-users+unsubscribe@googlegroups.com</unsubscribe>
+      <post>zendesk-java-client-users@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/#!forum/zendesk-java-client-users</archive>
+    </mailingList>
+  </mailingLists>
+  <developers>
+    <developer>
+      <name>Stephen Connolly</name>
+    </developer>
+    <developer>
+      <name>Johno Crawford</name>
+    </developer>
+    <developer>
+      <name>Matt Tucker</name>
+    </developer>
+    <developer>
+      <name>Yoann Dubreuil</name>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:git://github.com/cloudbees/zendesk-java-client.git</connection>
+    <developerConnection>scm:git:git@github.com:cloudbees/zendesk-java-client.git</developerConnection>
+    <url>http://github.com/cloudbees/zendesk-java-client/tree/master/</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <minimizeJar>true</minimizeJar>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+

@@ -21,11 +21,11 @@ public class PostComment {
 
   /** The id of the author of the post. *Writable on create by Help Center managers **/
   @JsonProperty("author_id")
-  private int author_id;
+  private long author_id;
 
   /** The id of the post on which the comment was made **/
   @JsonProperty("post_id")
-  private int post_id;
+  private long post_id;
 
   /** Whether the comment is marked as official **/
   @JsonProperty("official")
@@ -79,19 +79,19 @@ public class PostComment {
     this.body = body;
   }
 
-  public int getAuthor_id() {
+  public long getAuthor_id() {
     return author_id;
   }
 
-  public void setAuthor_id(int author_id) {
+  public void setAuthor_id(long author_id) {
     this.author_id = author_id;
   }
 
-  public int getPost_id() {
+  public long getPost_id() {
     return post_id;
   }
 
-  public void setPost_id(int post_id) {
+  public void setPost_id(long post_id) {
     this.post_id = post_id;
   }
 

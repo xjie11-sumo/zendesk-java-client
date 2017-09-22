@@ -538,7 +538,7 @@ public class Zendesk implements Closeable {
         if (realm != null) {
             builder.setRealm(realm);
         } else {
-            builder.addHeader("Authorization", "Bearer" + oauthToken);
+            builder.addHeader("Authorization", "Bearer " + oauthToken);
         }
         builder.setHeader("Content-Type", "multipart/form-data");
         builder.addBodyPart(
@@ -1762,6 +1762,40 @@ public class Zendesk implements Closeable {
             handlePostCommentList("comments")));
     }
 
+    /**
+     * Takes in a post comment to create on Zendesk community. API docs say that only body and
+     * author_id are looked at in the payload. Must also have post_id for the api url.
+     * @param postComment   The comment that is to be posted. Must have (body, post_id). author_id is optional
+     * @param notifySubs    Notifies all subscribers when comment is posted
+     * @return              The PostComment that has been created in Zendesk.
+     */
+    public PostComment createCommunityPostComment(PostComment postComment, boolean notifySubs) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> commentMap = new HashMap<>();
+        commentMap.put("body", postComment.getBody());
+        if (postComment.getAuthor_id() > 0) {
+            commentMap.put("author_id", postComment.getAuthor_id());
+        }
+        map.put("comment", commentMap);
+        map.put("notify_subscribers", notifySubs);
+        System.out.println(req("POST", tmpl("/community/posts/{post_id}/comments.json").set("post_id", postComment.getPost_id()),
+            JSON, json(map)));
+        return complete(submit(req("POST", tmpl("/community/posts/{post_id}/comments.json").set("post_id", postComment.getPost_id()),
+            JSON, json(map)), handle(PostComment.class, "comment")));
+    }
+
+    public PostComment createSingleCommunityPostComment(Long postId, String body, Long author_id) {
+        PostComment pc = new PostComment();
+        pc.setPost_id(postId);
+        pc.setBody(body);
+        pc.setAuthor_id(author_id);
+        return createCommunityPostComment(pc, true);
+    }
+
+    public PostComment createSingleCommunityPostComment(Long postId, String body) {
+        return createSingleCommunityPostComment(postId, body, -1L);
+    }
+
     //////////////////////////////////////////////////////////////////////
     // Helper methods
     //////////////////////////////////////////////////////////////////////
@@ -1810,7 +1844,7 @@ public class Zendesk implements Closeable {
         if (realm != null) {
             builder.setRealm(realm);
         } else {
-            builder.addHeader("Authorization", "Bearer" + oauthToken);
+            builder.addHeader("Authorization", "Bearer " + oauthToken);
         }
         builder.setUrl(RESTRICTED_PATTERN.matcher(url).replaceAll("+")); // replace out %2B with + due to API restriction
         return builder.build();
@@ -1821,7 +1855,7 @@ public class Zendesk implements Closeable {
         if (realm != null) {
             builder.setRealm(realm);
         } else {
-            builder.addHeader("Authorization", "Bearer" + oauthToken);
+            builder.addHeader("Authorization", "Bearer " + oauthToken);
         }
         builder.setUrl(RESTRICTED_PATTERN.matcher(template.toString()).replaceAll("+")); //replace out %2B with + due to API restriction
         builder.addHeader("Content-type", contentType);
