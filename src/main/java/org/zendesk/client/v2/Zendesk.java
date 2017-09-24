@@ -1757,6 +1757,31 @@ public class Zendesk implements Closeable {
         return getCommunityPosts(queryParams);
     }
 
+    public Post createCommunityPost(Post post) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", post.getTitle());
+        map.put("details", post.getDetails());
+        map.put("topic_id", post.getTopic_id());
+        if (post.getAuthor_id() > 0) {
+            map.put("author_id", post.getAuthor_id());
+        }
+        return complete(submit(req("POST", cnst("/community/posts.json"),
+            JSON, json(Collections.singletonMap("post", map))), handle(Post.class, "post")));
+    }
+
+    public Post createSingleCommunityPost(String title, String details, Long topic_id, Long author_id) {
+        Post post = new Post();
+        post.setTitle(title);
+        post.setDetails(details);
+        post.setTopic_id(topic_id);
+        post.setAuthor_id(author_id);
+        return createCommunityPost(post);
+    }
+
+    public Post createSingleCommunityPost(String title, String details, Long topic_id) {
+        return createSingleCommunityPost(title, details, topic_id, -1L);
+    }
+
     public Iterable<PostComment> getCommunityPostCommentsByPostId(Long postId) {
         return complete(submit(req("GET", tmpl("/community/posts/{post_id}/comments.json").set("post_id", postId)),
             handlePostCommentList("comments")));
@@ -1778,8 +1803,6 @@ public class Zendesk implements Closeable {
         }
         map.put("comment", commentMap);
         map.put("notify_subscribers", notifySubs);
-        System.out.println(req("POST", tmpl("/community/posts/{post_id}/comments.json").set("post_id", postComment.getPost_id()),
-            JSON, json(map)));
         return complete(submit(req("POST", tmpl("/community/posts/{post_id}/comments.json").set("post_id", postComment.getPost_id()),
             JSON, json(map)), handle(PostComment.class, "comment")));
     }

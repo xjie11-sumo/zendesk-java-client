@@ -1,5 +1,6 @@
 package org.zendesk.client.v2;
 
+import org.zendesk.client.v2.model.hc.Post;
 import org.zendesk.client.v2.model.hc.PostComment;
 
 import java.util.HashMap;
@@ -12,9 +13,11 @@ public class TestMain {
         .setToken(token)
         .build();
 
-    zd.getCommunityPostsSortByNewest().forEach(System.out::println);
-    zd.getCommunityPostCommentsByPostId(115006620307L).forEach(System.out::println);
+    zd.getTopics().forEach(System.out::println);
+    System.out.println(zd.getTopic(115000377147L));
+    Post post = zd.createSingleCommunityPost("testing", "make sure this works", 115000377147L);
+    System.out.println(post);
+    System.out.println(zd.createSingleCommunityPostComment(post.getId(), "testing if this works1"));
 
-    System.out.println(zd.createSingleCommunityPostComment(115006620307L, "testing if this works1"));
   }
 }

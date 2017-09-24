@@ -26,7 +26,7 @@ public class Post {
 
   /** The id of the author of the post. *Writable on create by Help Center managers **/
   @JsonProperty("author_id")
-  private int author_id;
+  private long author_id;
 
   /** When true, pins the post to the top of its topic **/
   @JsonProperty("pinned")
@@ -62,7 +62,7 @@ public class Post {
 
   /** The id of the topic that the post belongs to **/
   @JsonProperty("topic_id")
-  private int topic_id;
+  private long topic_id;
 
   /** The time at which the subscription was created */
   @JsonProperty("created_at")
@@ -112,11 +112,11 @@ public class Post {
     this.details = details;
   }
 
-  public int getAuthor_id() {
+  public long getAuthor_id() {
     return author_id;
   }
 
-  public void setAuthor_id(int author_id) {
+  public void setAuthor_id(long author_id) {
     this.author_id = author_id;
   }
 
@@ -184,11 +184,11 @@ public class Post {
     this.follower_count = follower_count;
   }
 
-  public int getTopic_id() {
+  public long getTopic_id() {
     return topic_id;
   }
 
-  public void setTopic_id(int topic_id) {
+  public void setTopic_id(long topic_id) {
     this.topic_id = topic_id;
   }
 
